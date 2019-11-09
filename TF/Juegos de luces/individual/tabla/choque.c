@@ -1,15 +1,21 @@
-#include <stdio.h>
+#include <stdlib.h>
 #include <wiringPi.h>
 #include "kbhit.h"
+#include <pcf8591.h>
 
 #define N 8		// numero de gpio a usar
-#define v 0.1*1000 	// retardo en seg*cte usleep
+#define v 50	 	// retardo en mseg
+
+#define Adress 0x48
+#define BASE 64
+#define A0 BASE+0	//dirección potenciometro ADC
 
 void dec_bin(int dec, int *bin);
 
 int main (){
 	
-	wiringPiSetup();
+	if(wiringPiSetup() == -1)	exit(1);
+	pcf8591Setup(BASE,Adress);
 	
 	int i,j;
 	int const gpio[N]= {25,29,28,27,26,6,5,4};	//lista de GPIO disponibles en la placa(se trunca con N)
@@ -27,7 +33,7 @@ int main (){
 		for(i=0; i<7; i++){
 			dec_bin(tabla[i], valor_gpio);
 			for (j=0; j<N; j++) digitalWrite( gpio[j], valor_gpio[j]);
-			delay(v);			
+			delay(v*(1+0.2*(analogRead(A0))));			
 		}
 	};
 	
@@ -45,4 +51,5 @@ void dec_bin(int dec, int *bin ){
 		else	*(bin+7-i) =0;	//rellena con ceros
 		dec/=2;
 	}
+	
 }	
