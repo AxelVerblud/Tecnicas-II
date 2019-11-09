@@ -1,16 +1,16 @@
 #include <stdio.h>
-#include "easypio.h"
+#include <wiringPi.h>
 #include "kbhit.h"
 
 #define N 8
 
 int main (){
 	
-	pioInit();
+	wiringPiSetup();
      
-    int i;
-    int gpio[8]={26,21,20,16,12,25,24,23};
-     
+    	int i;
+	int gpio[N]= {25,29,28,27,26,6,5,4};	//lista de GPIO disponibles en la placa(se trunca con N)
+	
     nonblock(NB_ENABLE);
      
     for(i=0; i<N; i++)
@@ -35,8 +35,7 @@ int main (){
         }
     }; //cierre del while
      
-   clear(gpio, sizeof(gpio));
- 
+    for(i=0; i<N; i++)	digitalWrite(gpio[i],0);
     return 0;
 }
 	
