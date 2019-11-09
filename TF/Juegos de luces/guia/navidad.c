@@ -40,14 +40,9 @@ void dec_bin(int dec, int *bin ){
 
 	int i;
 
-	if(!dec){
-		for (i=0; i<8;i++)	*(bin+i)=0;
-		return;
-	}
-
-	for (i=0; dec!=0; i++){
-		*(bin+7-i) = dec%2;
+	for (i=0; i<N; i++){
+		if(dec!=0)	*(bin+7-i) = dec%2;
+		else	*(bin+7-i) =0;	//rellena con ceros
 		dec/=2;
-	}
-	
+	}	
 }	
