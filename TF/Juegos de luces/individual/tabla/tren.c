@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <wiringPi.h>
 #include "kbhit.h"
@@ -9,7 +8,8 @@
 #define A0 BASE+0	//dirección potenciometro ADC
 
 #define N 8		// numero de gpio a usar
-#define v 10	 	// tiempo base en mseg
+#define v 50	 	// tiempo base en mseg
+#define delta 5		// maxima variación de velocidad
 
 void dec_bin(int dec, int *bin);
 
@@ -34,7 +34,7 @@ int main (){
 		for(i=flag; i<10; i++){
 			dec_bin(tabla[i], valor_gpio);
 			for (j=0; j<N; j++) digitalWrite( gpio[j], valor_gpio[j]);
-			delay(v*(0.5*analogRead(A0)+1));		//variación de velocidad en función del pot del ADC
+			delay(v*(1+delta*(analogRead(A0)/255)));		//variación de velocidad en función del pot del ADC
 			if(tabla[i]==131)	flag=2;	//una vez recorrida tabla por primera vez evita la "entrada" del tren
 		}
 	};

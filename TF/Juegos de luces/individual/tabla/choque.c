@@ -5,7 +5,7 @@
 
 #define N 8		// numero de gpio a usar
 #define v 50	 	// retardo en mseg
-
+#define delta 5		//máxima variación de velocidad
 #define Adress 0x48
 #define BASE 64
 #define A0 BASE+0	//dirección potenciometro ADC
@@ -33,7 +33,7 @@ int main (){
 		for(i=0; i<7; i++){
 			dec_bin(tabla[i], valor_gpio);
 			for (j=0; j<N; j++) digitalWrite( gpio[j], valor_gpio[j]);
-			delay(v*(1+0.2*(analogRead(A0))));			
+			delay(v*(1+delta*(analogRead(A0)/255)));			
 		}
 	};
 	
