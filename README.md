@@ -1,1 +1,0 @@
-# Tecnicas-II
